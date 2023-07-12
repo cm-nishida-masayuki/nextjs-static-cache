@@ -20,13 +20,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Outputs static files
-        working-directory: ./web
-        env:
-          NODE_ENV: production
-        run: |
-          npm ci
-          npm run build
       - uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.GH_ACTION_PROVIDER_ARN }}
@@ -36,6 +29,13 @@ jobs:
         run: |
           npm ci
           npm run cdk deploy ApiStack -- --require-approval never
+      - name: Outputs static files
+        working-directory: ./web
+        env:
+          NODE_ENV: production
+        run: |
+          npm ci
+          npm run build          
       - name: Sync generated files to s3
         working-directory: ./iac  
         run: |
