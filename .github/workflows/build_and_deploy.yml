@@ -32,9 +32,7 @@ jobs:
           role-to-assume: ${{ secrets.GH_ACTION_PROVIDER_ARN }}
           aws-region: ap-northeast-1          
       - name: Sync generated files to s3
-        working-directory: ./iac
-        env:
-          NODE_ENV: production        
+        working-directory: ./iac  
         run: |
           npm ci
           npm run cdk deploy WebStack
