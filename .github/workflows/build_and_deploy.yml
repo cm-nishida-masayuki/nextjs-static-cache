@@ -35,7 +35,7 @@ jobs:
           NODE_ENV: production
         run: |
           npm ci
-          npm run build          
+          npm run build:static
       - name: Sync generated files to s3
         working-directory: ./iac  
         run: |
