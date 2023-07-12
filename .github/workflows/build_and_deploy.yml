@@ -1,0 +1,41 @@
+name: build-and-deploy
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main    
+
+permissions:
+  id-token: write
+  contents: read  
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+      - name: Outputs static files
+        working-directory: ./web
+        env:
+          NODE_ENV: production
+        run: |
+          npm ci
+          npm run build
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.GH_ACTION_PROVIDER_ARN }}
+          aws-region: ap-northeast-1          
+      - name: Sync generated files to s3
+        working-directory: ./iac
+        env:
+          NODE_ENV: production        
+        run: |
+          npm ci
+          npm run cdk deploy WebStack
