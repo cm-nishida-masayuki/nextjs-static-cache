@@ -16,7 +16,7 @@ export const products: Product[] = [
   },
   {
     id: 2,
-    name: "ドギーマン2",
+    name: "ドギーマン3",
     price: 200,
     description: "めっちゃ美味しいし栄養ある",
     image: "/images/dog-02.jpg",
