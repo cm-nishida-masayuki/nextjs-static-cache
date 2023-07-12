@@ -35,9 +35,9 @@ jobs:
         working-directory: ./iac  
         run: |
           npm ci
-          npm run cdk deploy ApiStack --require-approval never
+          npm run cdk deploy ApiStack -- --require-approval never
       - name: Sync generated files to s3
         working-directory: ./iac  
         run: |
           npm ci
-          npm run cdk deploy WebStack --require-approval never
+          npm run cdk deploy WebStack -- --require-approval never
