@@ -30,9 +30,14 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.GH_ACTION_PROVIDER_ARN }}
-          aws-region: ap-northeast-1          
+          aws-region: ap-northeast-1
+      - name: Deploy API
+        working-directory: ./iac  
+        run: |
+          npm ci
+          npm run cdk deploy ApiStack --require-approval          
       - name: Sync generated files to s3
         working-directory: ./iac  
         run: |
           npm ci
-          npm run cdk deploy WebStack
+          npm run cdk deploy WebStack --require-approval
